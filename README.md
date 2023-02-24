@@ -201,7 +201,7 @@ The REST endpoints are listed on `localhost:8080/` for you to test.
 
 * A possible way to safeguard against this vulnerability is to use `AggregationExpression.from(MongoExpression.create(MONGO_QUERY_STRING))` instead.
 
-* I have opted not to implemented the above solution because I have not tested it rigourously - in my mind, such implementation would add an additional layers of complexity without certainty that it'll adequately address the vulnerability.
+* I have opted not to implemented the above solution because I have not tested it rigourously - in my mind, such implementation would add additional layers of complexity without certainty that it'll adequately address the vulnerability.
 
 * I am not experienced enough to address this or any other problems that may arise from bypassing the methods that the Spring developers have provided. There *should* be a good reason why they did not expose this fairly obvious functionality in their API. 
 
