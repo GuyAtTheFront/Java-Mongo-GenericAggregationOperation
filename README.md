@@ -5,7 +5,9 @@ For IBF-TFIP Candidates using this class for your assessment:
     * (Preferred) Use this class in one of your existing public repository, and/or
     * Link this repo to your submission README.md
 
-If you use this class, it is assumed that you have read and understood both [Disclaimer](#disclaimers) and [Limitations](#limitations). **Use at your own risk**.
+If you use this class, it is assumed that you have read and understood both [Disclaimer](#disclaimers) and [Limitations](#limitations). 
+
+**Use at your own risk**.
 
 
 # Contents
@@ -29,13 +31,19 @@ But sometimes they are the same thing.
 ## Disclaimers
 1. This class **DOES NOT** replace the need to know Mongo Aggregation Queries.
 2. This class **DOES NOT** replace the functionalities provided by `org.springframework.data.mongodb.core.aggregation.*`. There may be some functionalities that Spring provides that this class cannot do. **USE AT YOUR OWN RISK**.
-3. This class is __possbly__ **unsafe for production**. See [Limitations](#limitations) for details.
+3. This class is __possbly__ **unsafe for production**. 
+
+See [Limitations](#limitations) for details.
 
 
 ## Overview
 Spring's `MongoTemplate` provides some methods to form and run Mongo Aggregation Queries. However, these methods are (1) very-far-removed from the native mongo query, (2) inconsistent amongst themselves, and (3) not a one-to-one map to native mongo query.
 
-This repo showcases the `GenericAggregationOperation` class that implements `AggregationOperation` interface. It creates an `AggregationOperation` directly from native mongo query. The created instance can be used directly in the aggregation pipeline. Of course, this class bypasses all the checks that other methods may have. **Use at your own risk**. See [Limitations](#limitations).
+This repo showcases the `GenericAggregationOperation` class that implements `AggregationOperation` interface. It creates an `AggregationOperation` directly from native mongo query. The created instance can be used directly in the aggregation pipeline. Of course, this class bypasses all the checks that other methods may have. 
+
+**Use at your own risk**. 
+
+See [Limitations](#limitations).
 
 ### Setup
 To use this method, copy the `GenericAggregationOperation.java` class to your project folder, ideally under the `utils` folder. Below are examples of how to use this class:
@@ -51,7 +59,7 @@ db.games.aggregate([
 ])
 ```
 
-First, you define the native Mongo Query as a string String:
+First, you define the native Mongo Query as a String:
 ```
 final String MONGO_MATCH_GID = 
 """
@@ -61,7 +69,7 @@ final String MONGO_MATCH_GID =
 """.formatted(id);
 ```
 
-Then, you use pass the String to the `GenericAggregationOperation` constructor to create an `AggregationOperation` instance:
+Then pass the String to the `GenericAggregationOperation` constructor to create an `AggregationOperation` instance:
 ```
 AggregationOperation matchGid = new GenericAggregationOperation(MONGO_MATCH_GID);
 ```
@@ -154,7 +162,7 @@ final String MONGO_PROJECT_OUTPUT =
 """;
 ```
 
-Then use the pass each String to the `GenericAggregationOperation` constructor to create instances if `AggregationOperation`:
+Then pass each String to the `GenericAggregationOperation` constructor to create instances of `AggregationOperation`:
 
 ```
 AggregationOperation matchGid = new GenericAggregationOperation(MONGO_MATCH_GID);
@@ -191,11 +199,11 @@ The REST endpoints are listed on `localhost:8080/` for you to test.
 
 * This class uses raw-Strings for Mongo Aggregation Queries, and is vulnerable to injection. The extent of this vulnerablility depends on (1) the structure of the aggregation pipeline, (2) the `Aggregate.createAggregation` method implementation, and (3) the Java-Mongo driver implementation.
 
-* A possible way to safeguard against this vulnerability is to use `AggregationExpression.from(MongoExpression.create(MONGO_QUERY_STRING))`.
+* A possible way to safeguard against this vulnerability is to use `AggregationExpression.from(MongoExpression.create(MONGO_QUERY_STRING))` instead.
 
-* Above solution is not implemented because it has not been rigourously tested - it adds an additional layer of complexity without certainty that it'll adequately address the vulnerability.
+* I have opted not to implemented the above solution because I have not tested it rigourously - in my mind, such implementation would add an additional layers of complexity without certainty that it'll adequately address the vulnerability.
 
-* I am not experienced enough to address this or any other problems that may arise from bypassing the methods that the Spring developers have provided. There *should* be a good reason why they did not expose this obvious functionality in their API. 
+* I am not experienced enough to address this or any other problems that may arise from bypassing the methods that the Spring developers have provided. There *should* be a good reason why they did not expose this fairly obvious functionality in their API. 
 
 * I leave this work for the more experienced / determined.
 
